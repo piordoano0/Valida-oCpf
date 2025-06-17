@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Validação de CPF</title>
+    <style>
+        body { font-family: Arial; background: #f9fafb; padding: 20px; }
+        .container { max-width: 600px; background: white; padding: 30px; margin: auto; border-radius: 10px; }
+        .valid { background-color: #e9f7ef; border: 2px solid #28a745; }
+        .invalid { background-color: #f8d7da; border: 2px solid #dc3545; }
+        .suspect { background-color: #fff3cd; border: 2px solid #ffc107; }
+    </style>
+</head>
+<body>
+<div class="container" th:classappend="${status}">
+    <h1>Validação de CPF</h1>
+
+    <form method="post" action="/validate">
+        <label>CPF:</label>
+        <input type="text" name="cpf" maxlength="11" required placeholder="Somente números"><br><br>
+
+        <label>Data de Nascimento:</label>
+        <input type="date" name="birthdate" required max="{{today}}"><br><br>
+
+        <button type="submit">Validar</button>
+    </form>
+
+    <div th:if="${error}">
+        <p style="color: red;" th:text="${error}"></p>
+    </div>
+
+    <div th:if="${data != null}">
+        <h2>Resultado</h2>
+        <p><strong>Nome:</strong> <span th:text="${data.name}"></span></p>
+        <p><strong>CPF:</strong> <span th:text="${data.cpfNumber}"></span></p>
+        <p><strong>Data Nasc:</strong> <span th:text="${data.birthDate}"></span></p>
+        <p><strong>Registro:</strong> <span th:text="${data.registrationDate}"></span> (<span th:text="${anosRegistro}"></span> anos)</p>
+        <p><strong>Estado:</strong> <span th:text="${estado}"></span></p>
+        <p><strong>Situação:</strong> <span th:text="${data.situation}"></span></p>
+        <p><strong>Status:</strong> <span th:text="${data.status}"></span></p>
+        <p th:if="${data.receipt != null}"><strong>Código Controle:</strong> <span th:text="${data.receipt.controlCode}"></span></p>
+    </div>
+</div>
+</body>
+</html>
